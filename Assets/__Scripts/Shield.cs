@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sheild : MonoBehaviour
+public class Shield : MonoBehaviour
 {
     [Header("Set In Inspector")]
     public float rotationsPerSecond = 0.1f;
@@ -21,7 +21,7 @@ public class Sheild : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int currLevel = Mathf.FloorToInt(Hero.s.shieldLevel);
+        int currLevel = Mathf.FloorToInt(Hero.S.shieldLevel);
 
         if (levelShown != currLevel)
         {

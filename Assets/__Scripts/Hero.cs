@@ -5,9 +5,7 @@ using UnityEngine;
 public class Hero : MonoBehaviour
 {
     static public Hero S;
-
-    [Header("Set In Inspector")]
-    //these fields control the movement of the ship
+    [Header("Set in Inspector")]
     public float speed = 30;
     public float rollMult = -45;
     public float pitchMult = 30;
@@ -15,46 +13,45 @@ public class Hero : MonoBehaviour
     public GameObject projectilePrefab;
     public float projectileSpeed = 40;
 
+
     [Header("Set Dynamically")]
     [SerializeField]
     public float _shieldLevel = 1;
-
-    //This variable holds a reference to the last triggering GameObject
     private GameObject lastTriggerGo = null;
 
     void Awake()
     {
-        if (S == null)
+        if( S== null)
         {
-            S = this; //Set the singleton
-        }
-        else
-        {
-            Debug.LogError("Hero.Awake() - Attempted to assign second Hero.S!");
-        }
+            S = this;
+        }else
+         {
+            Debug.LogError("Hero.Awake () - Attempted to assign second Hero.S!");
+         }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Pull in information from the Input class
         float xAxis = Input.GetAxis("Horizontal");
         float yAxis = Input.GetAxis("Vertical");
 
-        //Change transform.position based on the axes
         Vector3 pos = transform.position;
         pos.x += xAxis * speed * Time.deltaTime;
-        pos.y += yAxis * speed * Time.deltaTime;
+        pos.x += yAxis * speed * Time.deltaTime;
         transform.position = pos;
 
-        //Rotate the ship to make it feel more dynamic
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
 
-        //Allow the ship to fire
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TempFire();
-        }
+        } 
     }
 
     void TempFire()
@@ -64,14 +61,11 @@ public class Hero : MonoBehaviour
         Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
         rigidB.velocity = Vector3.up * projectileSpeed;
     }
-
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         Transform rootT = other.gameObject.transform.root;
         GameObject go = rootT.gameObject;
-        //print("Triggered: " + go.name);
 
-        //Make sure it's not the same triggering go as last time
         if (go == lastTriggerGo)
         {
             return;
@@ -88,7 +82,6 @@ public class Hero : MonoBehaviour
             print("Triggered by non-Enemy: " + go.name);
         }
     }
-
     public float shieldLevel
     {
         get
@@ -98,11 +91,11 @@ public class Hero : MonoBehaviour
         set
         {
             _shieldLevel = Mathf.Min(value, 4);
-            //if the shield is going to be set to less than two
-            if (value < 0)
+
+            if(value < 0)
             {
                 Destroy(this.gameObject);
-                //Tell Main.S to restart the game after a delay
+
                 Main.S.DelayedRestart(gameRestartDelay);
             }
         }

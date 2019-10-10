@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript1 : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [Header("Set In Inspector")]
     public float speed = 10f;
@@ -10,10 +10,13 @@ public class NewBehaviourScript1 : MonoBehaviour
     public float health = 10;
     public int score = 100;
 
-
     private BoundsCheck bndCheck;
 
-    //This is a property: A method that acts like a field
+    void Awake()
+    {
+        bndCheck = GetComponent<BoundsCheck>(); 
+    }
+
     public Vector3 pos
     {
         get
@@ -27,23 +30,22 @@ public class NewBehaviourScript1 : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        bndCheck = GetComponent<BoundsCheck>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        if (bndCheck != null && !bndCheck.offDown)
+        if (bndCheck != null && bndCheck.offDown)
         {
-            //Check to make sure it's gone off the bottom of the screen
-            if (pos.y < bndCheck.camHeight - bndCheck.radius)
-            {
-                //We're off the bottom, to destroy this GameObject
+            
+            
+               //We're off the bottom, to destroy this GameObject
                 Destroy(gameObject);
-            }
+            
         }
     }
     public virtual void Move()
@@ -52,17 +54,17 @@ public class NewBehaviourScript1 : MonoBehaviour
         tempPos.y -= speed * Time.deltaTime;
         pos = tempPos;
     }
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision coll)
     {
-        GameObject otherGO = collision.gameObject;
-        if (otherGO.tag == "Projectile Hero")
+        GameObject otherGo = coll.gameObject;
+        if(otherGo.tag == "ProjectileHero")
         {
-            Destroy(otherGO);
+            Destroy(otherGo);
             Destroy(gameObject);
         }
         else
         {
-            print("Enemy Hit by non-Projectile Hero: " + otherGO.name);
+            print("Enemy hit by non-ProjectileHero: " + otherGo.name);
         }
     }
 }

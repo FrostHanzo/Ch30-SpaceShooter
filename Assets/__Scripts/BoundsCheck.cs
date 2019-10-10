@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class BoundsCheck : MonoBehaviour
 {
     [Header("Set In Inspector")]
     public float radius = 1f;
@@ -14,61 +14,58 @@ public class NewBehaviourScript : MonoBehaviour
     public float camHeight;
     [HideInInspector]
     public bool offRight, offLeft, offUp, offDown;
-
-    // Start is called before the first frame update
     void Awake()
     {
-        camHeight = Camera.main.orthographicSize;
-        camWidth = camHeight * Camera.main.aspect;
+       camHeight = Camera.main.orthographicSize;
+       camWidth = camHeight * Camera.main.aspect;
     }
 
-    // Update is called once per frame
+// Start is called before the first frame update
+    void Start()
+    {
+        
+    }
     void LateUpdate()
     {
         Vector3 pos = transform.position;
         isOnScreen = true;
         offRight = offLeft = offUp = offDown = false;
-
-        if (pos.x > camWidth - radius)
+        if(pos.x > camWidth - radius)
         {
             pos.x = camWidth - radius;
-            isOnScreen = false;
             offRight = true;
+            
         }
-        if (pos.x < -camWidth + radius)
+        if (pos.x > -camWidth + radius)
         {
             pos.x = -camWidth + radius;
-            isOnScreen = false;
             offLeft = true;
         }
-        if (pos.y > camHeight - radius)
+        if (pos.y > camWidth - radius)
         {
-            pos.y = camHeight - radius;
-            isOnScreen = false;
+            pos.y = camWidth - radius;
             offUp = true;
         }
-        if (pos.y < -camHeight + radius)
+        if (pos.y > -camWidth + radius)
         {
-            pos.y = -camHeight + radius;
-            isOnScreen = false;
+            pos.y = -camWidth + radius;
             offDown = true;
         }
-
         isOnScreen = !(offRight || offLeft || offUp || offDown);
-        if (keepOnScreen && !isOnScreen)
+        if(keepOnScreen && !isOnScreen)
         {
             transform.position = pos;
             isOnScreen = true;
             offRight = offLeft = offUp = offDown = false;
         }
 
+        transform.position = pos;
     }
-
-    //Draw the bounds in the Scene pane using OnDrawGizmos()
     private void OnDrawGizmos()
     {
         if (!Application.isPlaying) return;
         Vector3 boundSize = new Vector3(camWidth * 2, camHeight * 2, 0.1f);
         Gizmos.DrawWireCube(Vector3.zero, boundSize);
     }
+
 }
