@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 1622143503073425716}
   - component: {fileID: 1622143503073425723}
   - component: {fileID: 6124469514211819941}
-  - component: {fileID: 691464252655562465}
+  - component: {fileID: 4393873969374376175}
   m_Layer: 9
   m_Name: Enemy_0
   m_TagString: Enemy
@@ -249,7 +249,7 @@ MonoBehaviour:
   fireRate: 0.3
   health: 10
   score: 100
---- !u!114 &691464252655562465
+--- !u!114 &4393873969374376175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

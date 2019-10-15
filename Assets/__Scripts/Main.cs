@@ -20,7 +20,7 @@ public class Main : MonoBehaviour
 
         bndCheck = GetComponent<BoundsCheck>();
 
-        Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+        Invoke("SpawnEnemy", 1f/enemySpawnPerSecond);
     }
 
     public void SpawnEnemy()
@@ -36,15 +36,15 @@ public class Main : MonoBehaviour
                 enemyPadding = Mathf.Abs(go.GetComponent<BoundsCheck>().radius);
            }
           //Set the initial position for the spawned Enemy
-     Vector3 pos = Vector3.zero;
-     float xMin = -bndCheck.camWidth + enemyPadding;
-     float xMax = bndCheck.camWidth - enemyPadding;
-     pos.x = Random.Range(xMin, xMax);
-     pos.y = bndCheck.camHeight + enemyPadding;
-     go.transform.position = pos;
+        Vector3 pos = Vector3.zero;
+        float xMin = -bndCheck.camWidth + enemyPadding;
+        float xMax =  bndCheck.camWidth - enemyPadding;
+        pos.x = Random.Range(xMin, xMax);
+        pos.y = bndCheck.camHeight + enemyPadding;
+        go.transform.position = pos;
 
-     //Invoke SpawnEnemy() again
-     Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+        //Invoke SpawnEnemy() again
+        Invoke("SpawnEnemy", 1f/enemySpawnPerSecond);
      }
     public void DelayedRestart(float delay)
     {
@@ -53,7 +53,7 @@ public class Main : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("_Scene_0");
+        SceneManager.LoadScene("scene0");
     }
     // Start is called before the first frame update
     void Start()
