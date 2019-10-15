@@ -13,12 +13,16 @@ public class Hero : MonoBehaviour
     public float gameRestartDelay = 2f;
     public GameObject projectilePrefab;
     public float projectileSpeed = 40;
+    public Weapon[] weapons;
 
 
     [Header("Set Dynamically")]
     [SerializeField]
     public float _shieldLevel = 1;
     private GameObject lastTriggerGo = null;
+
+    public delegate void WeaponFireDelegate();
+    public WeaponFireDelegate fireDelegate;
 
     void Awake()
     {
@@ -29,6 +33,7 @@ public class Hero : MonoBehaviour
          {
             Debug.LogError("Hero.Awake () - Attempted to assign second Hero.S!");
          }
+        //fireDelegate += TempFire;
     }
     // Start is called before the first frame update
     void Start()
@@ -49,10 +54,15 @@ public class Hero : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+       // if (Input.GetKeyDown(KeyCode.Space))
+       // {
+      //      TempFire();
+       // } 
+
+        if(Input.GetAxis("Jump") == 1 && fireDelegate != null)
         {
-            TempFire();
-        } 
+            fireDelegate();
+        }
     }
 
     void TempFire()
@@ -60,7 +70,11 @@ public class Hero : MonoBehaviour
         GameObject projGO = Instantiate<GameObject>(projectilePrefab);
         projGO.transform.position = transform.position;
         Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
-        rigidB.velocity = Vector3.up * projectileSpeed;
+        // rigidB.velocity = Vector3.up * projectileSpeed;
+        Projectile proj = projGO.GetComponent<Projectile>();
+        proj.type = WeaponType.blaster;
+        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
+        rigidB.velocity = Vector3.up * tSpeed;
     }
     void OnTriggerEnter(Collider other)
     {
@@ -78,10 +92,25 @@ public class Hero : MonoBehaviour
             shieldLevel--;
             Destroy(go);
         }
+        else if(go.tag == "PowerUp")
+        {
+            // If the shield was triggered by a PowerUp
+            AbsorbPowerUp(go);
+        }
         else
         {
             print("Triggered by non-Enemy: " + go.name);
         }
+    }
+
+    public void AbsorbPowerUp(GameObject go)
+    {
+        PowerUp pu = go.GetComponent<PowerUp>();
+        switch (pu.type)
+        {
+
+        }
+        pu.AbsorbedBy(this.gameObject);
     }
     public float shieldLevel
     {

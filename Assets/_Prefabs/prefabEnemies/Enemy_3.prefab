@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 6063583722638192032}
   - component: {fileID: 6063583722638192033}
   - component: {fileID: 1203815290962305765}
-  - component: {fileID: 689113278780693257}
+  - component: {fileID: 5361533095733374643}
   m_Layer: 9
   m_Name: Enemy_3
   m_TagString: Enemy
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d030eeea55b348243b62cb488dd64d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &689113278780693257
+--- !u!114 &5361533095733374643
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8db8a244905374ba73002d3fb5e3fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: -2.5
+  radius: 2.5
   keepOnScreen: 0
   isOnScreen: 1
   camWidth: 0
